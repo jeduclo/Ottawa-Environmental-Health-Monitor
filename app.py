@@ -74,7 +74,11 @@ with st.sidebar:
         with st.spinner("🤖 AI agents analyzing data..."):
             try:
                 import io
+                import os
                 from contextlib import redirect_stdout
+                
+                # Set API key as environment variable for LangChain
+                os.environ["OPENAI_API_KEY"] = api_key
                 
                 # Pass the actual fetched data to the crew
                 health_crew = create_crew(api_key=api_key)
