@@ -111,7 +111,7 @@ with st.sidebar:
     """)
 
 # --- Main Content Tabs ---
-tab1, tab2, tab3, tab4 = st.tabs(["📋 Daily Brief", "📊 Live Data", "📈 Trends", "🔧 Logs"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["📋 Daily Brief", "📊 Live Data", "📈 Trends", "🤖 AI Agents", "🔧 Logs"])
 
 # Tab 1: Daily Brief
 with tab1:
@@ -298,8 +298,194 @@ with tab3:
     else:
         st.info("👈 Click 'Generate Daily Brief' to see trend analysis")
 
-# Tab 4: Logs
+# Tab 4: AI Agents
 with tab4:
+    st.header("🤖 AI Agent Architecture")
+    
+    st.markdown("""
+    This application uses **CrewAI** with 5 specialized AI agents working together to analyze environmental data 
+    and generate comprehensive health briefings. Each agent has a specific role and expertise.
+    """)
+    
+    st.divider()
+    
+    # Agent 1
+    st.subheader("1. 📊 Data Integration Specialist")
+    st.markdown("""
+    **Role:** Environmental Data Integration Specialist
+    
+    **Responsibilities:**
+    - Extracts and formats data from all provided sources
+    - Structures information for downstream agents
+    - Creates standardized data format (BRIEF_* tokens)
+    - Ensures data accuracy and completeness
+    
+    **Input Sources:**
+    - AQHI (Air Quality Health Index)
+    - Individual Pollutants (PM2.5, O3, NO2)
+    - 3-day historical trends
+    - Weather conditions
+    - Pollen data
+    
+    **Output:** Structured data summary with exact values for all metrics
+    """)
+    
+    st.divider()
+    
+    # Agent 2
+    st.subheader("2. 🫁 Pollutant Health Analyst")
+    st.markdown("""
+    **Role:** Pollutant Health Specialist
+    
+    **Expertise:**
+    - **PM2.5:** Fine particulates, lung inflammation, cardiovascular stress
+    - **O3 (Ozone):** Respiratory irritant, reduced lung function
+    - **NO2 (Nitrogen Dioxide):** Airway inflammation, breathing difficulties
+    
+    **Responsibilities:**
+    - Analyzes specific health impacts of each pollutant
+    - Compares levels against WHO safety standards
+    - Identifies dangerous pollutant combinations
+    - Highlights vulnerable population risks
+    
+    **Output:** Pollutant-specific health impact analysis
+    """)
+    
+    st.divider()
+    
+    # Agent 3
+    st.subheader("3. 📈 Air Quality Trend Analyst")
+    st.markdown("""
+    **Role:** Air Quality Trend Analyst
+    
+    **Responsibilities:**
+    - Analyzes 3-day AQHI historical patterns
+    - Identifies trends (increasing, decreasing, stable_low)
+    - Detects peak pollution times
+    - Provides 24-hour forecasts
+    - Issues early warnings for degrading conditions
+    
+    **Analysis Categories:**
+    - **Increasing:** Air quality worsening
+    - **Decreasing:** Air quality improving
+    - **Stable_low:** Consistently safe conditions
+    - **Stable:** No significant change
+    
+    **Output:** Trend analysis with context and forecasts
+    """)
+    
+    st.divider()
+    
+    # Agent 4
+    st.subheader("4. 🏥 Health Risk Stratification Specialist")
+    st.markdown("""
+    **Role:** Health Risk Stratification Specialist
+    
+    **Responsibilities:**
+    - Creates evidence-based health recommendations
+    - Tailors guidance to actual air quality levels
+    - Provides population-specific advice
+    - Recommends protective measures when warranted
+    
+    **Population Groups:**
+    - **General Population:** Safe activity guidelines
+    - **Children & Asthmatics:** Particulate and ozone sensitivity
+    - **Elderly & Cardiovascular:** PM2.5 and NO2 concerns
+    - **Pregnant Women:** Fetal development risks
+    - **Outdoor Workers:** Cumulative exposure management
+    
+    **Risk Levels:**
+    - AQHI 1-3: Excellent - No restrictions
+    - AQHI 4-6: Moderate - Monitor sensitive groups
+    - AQHI 7+: High - Protective measures required
+    
+    **Output:** Stratified, actionable health recommendations
+    """)
+    
+    st.divider()
+    
+    # Agent 5
+    st.subheader("5. 📝 Public Health Communications Specialist")
+    st.markdown("""
+    **Role:** Public Health Communications Specialist
+    
+    **Responsibilities:**
+    - Formats data into clear, professional briefs
+    - Uses exact values from Data Integration Agent
+    - Creates structured markdown reports
+    - Ensures scientific accuracy with readability
+    - Synthesizes insights from all agents
+    
+    **Brief Structure:**
+    1. Executive Summary (key findings at a glance)
+    2. Current Air Quality & Pollutants (exact measurements)
+    3. 3-Day Trend Analysis (historical context)
+    4. Health Recommendations (by population group)
+    5. Protective Measures (when needed)
+    
+    **Output:** Final daily environmental health brief
+    """)
+    
+    st.divider()
+    
+    # Workflow
+    st.subheader("🔄 Agent Workflow")
+    
+    col1, col2, col3 = st.columns([1, 0.1, 1])
+    
+    with col1:
+        st.markdown("""
+        **Sequential Processing:**
+        1. **Data Integration** → Extracts all metrics
+        2. **Pollutant Analysis** → Uses data from Agent 1
+        3. **Trend Analysis** → Uses data from Agent 1
+        4. **Risk Stratification** → Uses Agents 2 & 3
+        5. **Communications** → Synthesizes all agents
+        """)
+    
+    with col3:
+        st.markdown("""
+        **Data Flow:**
+        ```
+        API Sources
+            ↓
+        Agent 1: Integration
+            ↓
+        Agents 2 & 3: Analysis
+            ↓
+        Agent 4: Recommendations
+            ↓
+        Agent 5: Final Brief
+            ↓
+        User Display
+        ```
+        """)
+    
+    st.divider()
+    
+    # Technical Details
+    st.subheader("⚙️ Technical Implementation")
+    
+    st.markdown("""
+    **AI Model:** OpenAI GPT-4o-mini (via user's API key)
+    
+    **Framework:** CrewAI (Sequential Process)
+    
+    **Key Features:**
+    - Context sharing between agents
+    - No hallucination - agents use only provided data
+    - Structured task dependencies
+    - Real-time processing (2-3 minutes per brief)
+    
+    **Why Multiple Agents?**
+    - **Specialization:** Each agent focuses on specific expertise
+    - **Accuracy:** Structured data flow prevents errors
+    - **Transparency:** Clear chain of analysis
+    - **Quality:** Multiple perspectives ensure comprehensive output
+    """)
+
+# Tab 5: Logs
+with tab5:
     st.header("Agent Activity Logs")
     
     if st.session_state.logs:
